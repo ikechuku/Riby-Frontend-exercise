@@ -1,11 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Cards = ({ data, id }) => {
   let gif = data;
   return (
-    <Link
-      to={`gif/${id}`}
+    <a
+      href={`gif/${id}`}
       className="max-w-sm w-full sm:w-1/2 lg:w-1/3 py-6 px-3"
       onClick={() => console.log(id)}
     >
@@ -20,7 +19,7 @@ const Cards = ({ data, id }) => {
           <p className="text-gray-700">{gif.title}</p>
         </div>
       </div>
-    </Link>
+    </a>
   );
 };
 

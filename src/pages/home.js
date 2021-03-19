@@ -25,7 +25,7 @@ function App({ getGifs }) {
     setSearchWord(e.target.value);
     console.log(e.target.value);
   };
-  const list = info.data ? info.data.data : []
+  const list = info.data ? info.data.data : [];
 
   return (
     <>
@@ -70,7 +70,7 @@ function App({ getGifs }) {
       ) : (
         ""
       )}
-      <div className="w-5/6 mx-auto flex flex-wrap justify-evenly justify-items-auto ">
+      <div data-testid="gifs" className="list-Items w-5/6 mx-auto flex flex-wrap justify-evenly justify-items-auto ">
         {list.length
           ? list.map((item, id) => {
               return <CardList data={item} id={id} />;
