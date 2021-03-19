@@ -1,125 +1,100 @@
-import "./App.css";
+import "../App.css";
+import React, { useState } from "react";
+import CardList from "../components/cards";
+import { connect, useSelector } from "react-redux";
+import { getGifs } from "../actions/Gif.actions";
+import SearchBox from "../components/searchBox";
 
-function App() {
+function App({ getGifs }) {
+  const [searchWord, setSearchWord] = useState("");
+  const [limit, setLimit] = useState(25);
+  const getGiphy = async () => {
+    try {
+      await getGifs(searchWord, limit);
+      console.log(list.length);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const {
+    login: { loading, info },
+  } = useSelector((state) => state);
+
+  const handleChange = (e) => {
+    setSearchWord(e.target.value);
+    console.log(e.target.value);
+  };
+  const list = info.data.data || [];
+
   return (
-    <div className="bg-gray-100 font-sans leading-normal tracking-normal">
-      <nav id="header" className="fixed w-full">
-        <div className="relative w-full z-10 fixed top-0 bg-gray-200 border-b border-grey-light">
-          <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-4">
-            <div className="pl-4 flex items-center">
-              <svg
-                className="h-5 pr-3 fill-current text-teal-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M17.94 11H13V9h4.94A8 8 0 0 0 11 2.06V7H9V2.06A8 8 0 0 0 2.06 9H7v2H2.06A8 8 0 0 0 9 17.94V13h2v4.94A8 8 0 0 0 17.94 11zM10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" />
-              </svg>
-              <a
-                className="text-teal-700 text-base no-underline hover:no-underline font-extrabold text-xl"
-                href="#"
-              >
-                {" "}
-                Searchy
-              </a>
-              <div
-                id="search-toggle"
-                className="search-icon cursor-pointer pl-6"
-              >
+    <>
+      <div className="bg-gray-900 font-sans leading-normal tracking-normal">
+        <div className="w-full border border-grey-light ">
+          <div className=" fixed w-full bg-gray-200 border-b border-grey-light">
+            <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-4">
+              <div className="pl-4 flex items-center">
                 <svg
-                  className="fill-current pointer-events-none text-grey-darkest w-4 h-4 inline"
+                  className="h-5 pr-3 fill-current text-teal-400"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                 >
-                  <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                  <path d="M17.94 11H13V9h4.94A8 8 0 0 0 11 2.06V7H9V2.06A8 8 0 0 0 2.06 9H7v2H2.06A8 8 0 0 0 9 17.94V13h2v4.94A8 8 0 0 0 17.94 11zM10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" />
                 </svg>
+                <a
+                  className="text-teal-700 text-base no-underline hover:no-underline font-extrabold text-xl"
+                  href="#"
+                >
+                  {" "}
+                  Giphy Search
+                </a>
+                <div
+                  id="search-toggle"
+                  className="search-icon cursor-pointer pl-6"
+                ></div>
               </div>
             </div>
-
-            <div className="pr-4">
-              <button
-                id="nav-toggle"
-                className="block lg:hidden flex items-center px-3 py-2 border rounded text-grey border-grey-dark hover:text-black hover:border-purple appearance-none focus:outline-none"
-              >
-                <svg
-                  className="fill-current h-3 w-3"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title>Menu</title>
-                  <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-                </svg>
-              </button>
-            </div>
-
-            {/* <div
-              className="w-full flex-grow lg:flex lg:flex-1 lg:content-center lg:justify-end lg:w-auto hidden lg:block mt-2 lg:mt-0 z-20"
-              id="nav-content"
-            >
-              <ul className="list-reset lg:flex justify-end items-center">
-                <li className="mr-3 py-2 lg:py-0">
-                  <a
-                    className="inline-block py-2 px-4 text-black font-bold no-underline"
-                    href="#"
-                  >
-                    Active
-                  </a>
-                </li>
-                <li className="mr-3 py-2 lg:py-0">
-                  <a
-                    className="inline-block text-grey-dark no-underline hover:text-black hover:underline py-2 px-4"
-                    href="#"
-                  >
-                    link
-                  </a>
-                </li>
-                <li className="mr-3 py-2 lg:py-0">
-                  <a
-                    className="inline-block text-grey-dark no-underline hover:text-black hover:underline py-2 px-4"
-                    href="#"
-                  >
-                    link
-                  </a>
-                </li>
-              </ul>
-            </div> */}
           </div>
+          <SearchBox
+            searchWord={searchWord}
+            handleChange={handleChange}
+            handleClick={getGiphy}
+          />
         </div>
-
-        <div className="container mx-auto my-20 w-full fle justify-between bg-white shadow-xl">
-          <div className="flex mx-auto w-full  text-black">
-            <input
-              id="searchfield"
-              type="search"
-              placeholder="Search..."
-              autofocus="autofocus"
-              className="w-full text-grey-800 py-4 transition focus:outline-none focus:border-transparent p-2 appearance-none leading-normal text-xl lg:text-2xl"
-            />
-            {/* <div className="w-2/4"></div> */}
-            <button
-              className="w-1/5 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-sm shadow-lg hover:shadow-xl transition duration-200"
-              type="submit"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* <div className="pt-24 container mx-auto">
-        <div className="bg-white border p-6 rounded shadow h-64">
-          Click the
-          <svg
-            className="fill-current pointer-events-none text-grey-darkest w-4 h-4 inline"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-          </svg>{" "}
-          to show the search field.
-        </div>
-      </div> */}
-    </div>
+      </div>
+      {list.length ? (
+        <h3 className="my-10 h3 text-white text-lg">
+          {" "}
+          {/* {count} Results found for "{searchWord}" */}
+        </h3>
+      ) : (
+        ""
+      )}
+      <div className="w-5/6 mx-auto flex flex-wrap justify-evenly justify-items-auto ">
+        {list.length
+          ? list.map((item, id) => {
+              return <CardList data={item} id={id} />;
+            })
+          : ""}
+      </div>
+      <div className="w-full text-center text white my-10 mb-60">
+        {/* <button
+          className="w-1/5 p-3 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-sm shadow-lg hover:shadow-xl transition duration-200"
+          type="submit"
+          onClick={() => {
+            setLimit(limit + 25);
+            getGiphy();
+          }}
+        >
+          Load More...
+        </button> */}
+      </div>
+    </>
   );
 }
 
-export default App;
+const mapDispatchToProps = {
+  getGifs,
+};
+
+export default connect(null, mapDispatchToProps)(App);
