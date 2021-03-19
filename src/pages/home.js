@@ -25,7 +25,7 @@ function App({ getGifs }) {
     setSearchWord(e.target.value);
     console.log(e.target.value);
   };
-  const list = info.data ? info.data.data : "";
+  const list = info.data ? info.data.data : []
 
   return (
     <>
